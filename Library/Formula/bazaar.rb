@@ -20,11 +20,8 @@ class Bazaar < Formula
     system "make", "man1/bzr.1"
     man1.install "man1/bzr.1"
 
-    # Put system Python first in path
-    ENV.prepend_path "PATH", "/System/Library/Frameworks/Python.framework/Versions/Current/bin"
-
     system "make"
-    inreplace "bzr", "#! /usr/bin/env python", "#!/usr/bin/python"
+    inreplace "bzr", "#! /usr/bin/env python", "#!#{which "python"}"
     libexec.install "bzr", "bzrlib"
 
     (bin/"bzr").write_env_script(libexec/"bzr", :BZR_PLUGIN_PATH => "+user:#{HOMEBREW_PREFIX}/share/bazaar/plugins")
